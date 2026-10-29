@@ -2051,19 +2051,23 @@ async function startServer() {
     });
   });
 
-  // Mount Vite in dev or serve static build in production
-  if (process.env.NODE_ENV !== 'production') {
+  // Mount Vite middleware (in dev or if dist wasn't pre-built) or serve static build
+  const distPath = path.join(__dirname, 'dist');
+  const indexHtmlPath = path.join(distPath, 'index.html');
+
+  if (process.env.NODE_ENV === 'production' && fs.existsSync(indexHtmlPath)) {
+    app.use(express.static(distPath));
+    app.get('*', (_req, res) => {
+      res.sendFile(indexHtmlPath);
+    });
+  } else {
+    // If running in development OR if production dist hasn't been compiled yet,
+    // dynamically mount Vite so the app never throws ENOENT on Render!
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(__dirname, 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (_req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
-    });
   }
 
   server.listen(PORT, '0.0.0.0', () => {
