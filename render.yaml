@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: voxelcast-live-247
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter # Altere para free se desejar usar o plano gratuito
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production

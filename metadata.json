@@ -1,0 +1,6 @@
+{
+  "name": "VoxelCast Studio — OBS Web & Transmissão YouTube Live",
+  "description": "Estúdio de transmissão ao vivo no navegador estilo OBS Studio com composição de vídeos em camadas, playlist contínua, mixer de áudio e envio direto para o YouTube Live via RTMP/FFmpeg.",
+  "requestFramePermissions": ["camera", "microphone", "display-capture"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
